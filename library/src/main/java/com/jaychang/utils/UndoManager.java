@@ -13,7 +13,7 @@ public class UndoManager {
   private UndoManager() {
   }
 
-  public static UndoManager getInstance() {
+  public static synchronized UndoManager getInstance() {
     if (INSTANCE == null) {
       INSTANCE = new UndoManager();
     }
