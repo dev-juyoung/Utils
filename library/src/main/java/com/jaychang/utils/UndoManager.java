@@ -1,6 +1,7 @@
 package com.jaychang.utils;
 
 import android.support.annotation.CallSuper;
+import android.widget.RelativeLayout;
 
 import java.util.Stack;
 
@@ -18,6 +19,7 @@ public class UndoManager {
       INSTANCE = new UndoManager();
     }
     return INSTANCE;
+    RelativeLayout.LayoutParams
   }
 
   public void undo() {
