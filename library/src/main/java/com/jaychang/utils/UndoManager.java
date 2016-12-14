@@ -19,7 +19,6 @@ public class UndoManager {
       INSTANCE = new UndoManager();
     }
     return INSTANCE;
-    RelativeLayout.LayoutParams
   }
 
   public void undo() {
