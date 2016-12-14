@@ -2,12 +2,7 @@ package com.jaychang.utils;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
-
-import com.jaychang.toolbox.Toolbox;
-
 import java.util.Set;
-
-import static android.R.attr.key;
 
 public final class PreferenceUtils {
 

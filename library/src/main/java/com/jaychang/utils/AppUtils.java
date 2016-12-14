@@ -41,9 +41,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
-import com.google.common.base.Optional;
-import com.jaychang.toolbox.Toolbox;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;

@@ -9,8 +9,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jaychang.toolbox.Toolbox;
-
 public final class ViewUtils {
 
   private ViewUtils() {}
