@@ -255,4 +255,11 @@ public final class ImageUtils {
     return newBitmap;
   }
 
+  public static ImageDimension getImageDimensionFromUri(Uri uri) {
+    BitmapFactory.Options options = new BitmapFactory.Options();
+    options.inJustDecodeBounds = true;
+    BitmapFactory.decodeFile(new File(uri.getPath()).getAbsolutePath(), options);
+    return new ImageDimension(options.outWidth, options.outHeight);
+  }
+
 }
