@@ -3,12 +3,11 @@ package com.jaychang.utils;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -16,24 +15,16 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.location.LocationManager;
 import android.media.MediaScannerConnection;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.annotation.ColorRes;
 import android.support.annotation.RequiresPermission;
-import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -51,6 +42,12 @@ import java.util.Locale;
 import java.util.UUID;
 
 public final class AppUtils {
+
+  public static String getAppName(Context context) {
+    ApplicationInfo applicationInfo = context.getApplicationInfo();
+    int stringId = applicationInfo.labelRes;
+    return stringId == 0 ? applicationInfo.nonLocalizedLabel.toString() : context.getString(stringId);
+  }
 
   public static String getVersionName(Context context) {
     try {
