@@ -15,6 +15,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -22,6 +23,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.ColorRes;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresPermission;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -47,6 +49,27 @@ public final class AppUtils {
     ApplicationInfo applicationInfo = context.getApplicationInfo();
     int stringId = applicationInfo.labelRes;
     return stringId == 0 ? applicationInfo.nonLocalizedLabel.toString() : context.getString(stringId);
+  }
+
+  @Nullable
+  public static Drawable getAppIcon(Context context) {
+    return getAppIcon(context, context.getPackageName());
+  }
+
+  @Nullable
+  public static Drawable getAppIcon(Context context, String packageName) {
+    if (StringUtils.isBlank(packageName)) {
+      return null;
+    }
+
+    try {
+      PackageManager pm = context.getPackageManager();
+      PackageInfo pi = pm.getPackageInfo(packageName, 0);
+      return pi == null ? null : pi.applicationInfo.loadIcon(pm);
+    } catch (PackageManager.NameNotFoundException e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 
   public static String getVersionName(Context context) {
