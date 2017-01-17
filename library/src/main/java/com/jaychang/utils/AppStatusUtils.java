@@ -62,7 +62,7 @@ public class AppStatusUtils {
     app.registerComponentCallbacks(new ComponentCallbacks2() {
       @Override
       public void onTrimMemory(int level) {
-        if (state.equals("Stop")) {
+        if (state.equals("Pause")) {
           isInBackground = true;
           callback.onAppEnterBackground();
         }
