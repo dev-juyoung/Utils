@@ -20,12 +20,10 @@ public class AppStatusUtils {
     app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
       @Override
       public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        state = "Create";
       }
 
       @Override
       public void onActivityStarted(Activity activity) {
-        state = "Start";
       }
 
       @Override
@@ -55,14 +53,13 @@ public class AppStatusUtils {
       @Override
       public void onActivityDestroyed(Activity activity) {
         isInBackground = false;
-        state = "Destroy";
       }
     });
 
     app.registerComponentCallbacks(new ComponentCallbacks2() {
       @Override
       public void onTrimMemory(int level) {
-        if (state.equals("Pause")) {
+        if ("Pause".equals(state) || "Stop".equals(state)) {
           isInBackground = true;
           callback.onAppEnterBackground();
         }
