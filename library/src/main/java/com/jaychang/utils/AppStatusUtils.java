@@ -10,6 +10,8 @@ public class AppStatusUtils {
 
   private static String state = "";
   private static boolean isInBackground;
+  private static Application.ActivityLifecycleCallbacks lifecycleCallbacks;
+  private static ComponentCallbacks2 componentCallbacks;
 
   public interface Callback {
     void onAppEnterBackground();
@@ -17,7 +19,7 @@ public class AppStatusUtils {
   }
 
   public static void registerAppStatusCallback(Application app, final Callback callback) {
-    app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+    lifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
       @Override
       public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
       }
@@ -54,9 +56,10 @@ public class AppStatusUtils {
       public void onActivityDestroyed(Activity activity) {
         isInBackground = false;
       }
-    });
+    };
+    app.registerActivityLifecycleCallbacks(lifecycleCallbacks);
 
-    app.registerComponentCallbacks(new ComponentCallbacks2() {
+    componentCallbacks = new ComponentCallbacks2() {
       @Override
       public void onTrimMemory(int level) {
         if ("Pause".equals(state) || "Stop".equals(state)) {
@@ -72,7 +75,15 @@ public class AppStatusUtils {
       @Override
       public void onLowMemory() {
       }
-    });
+    };
+    app.registerComponentCallbacks(componentCallbacks);
+  }
+
+  public static void unregisterAppStatusCallback(Application app) {
+    app.unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
+    app.unregisterComponentCallbacks(componentCallbacks);
+    lifecycleCallbacks = null;
+    componentCallbacks = null;
   }
 
 }
