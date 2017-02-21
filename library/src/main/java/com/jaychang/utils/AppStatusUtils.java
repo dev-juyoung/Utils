@@ -2,9 +2,16 @@ package com.jaychang.utils;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.KeyguardManager;
+import android.content.BroadcastReceiver;
 import android.content.ComponentCallbacks2;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 
 public class AppStatusUtils {
 
@@ -15,6 +22,7 @@ public class AppStatusUtils {
 
   public interface Callback {
     void onAppEnterBackground();
+
     void onAppEnterForeground();
   }
 
@@ -30,7 +38,7 @@ public class AppStatusUtils {
 
       @Override
       public void onActivityResumed(Activity activity) {
-        if (isInBackground) {
+        if (canInteractive(activity) && isInBackground) {
           callback.onAppEnterForeground();
         }
 
@@ -40,6 +48,11 @@ public class AppStatusUtils {
 
       @Override
       public void onActivityPaused(Activity activity) {
+        if (!canInteractive(activity)) {
+          isInBackground = true;
+          callback.onAppEnterBackground();
+        }
+
         state = "Pause";
       }
 
@@ -62,7 +75,7 @@ public class AppStatusUtils {
     componentCallbacks = new ComponentCallbacks2() {
       @Override
       public void onTrimMemory(int level) {
-        if ("Pause".equals(state) || "Stop".equals(state)) {
+        if ("Pause".equals(state) || "Stop".equals(state) && !isInBackground) {
           isInBackground = true;
           callback.onAppEnterBackground();
         }
@@ -84,6 +97,16 @@ public class AppStatusUtils {
     app.unregisterComponentCallbacks(componentCallbacks);
     lifecycleCallbacks = null;
     componentCallbacks = null;
+  }
+
+  private static boolean canInteractive(Context context) {
+    PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+    boolean isScreenAwake = Build.VERSION.SDK_INT < 20 ? powerManager.isScreenOn() : powerManager.isInteractive();
+
+    KeyguardManager keyguardManager = (KeyguardManager) context.getApplicationContext().getSystemService(Context.KEYGUARD_SERVICE);
+    boolean isPhoneLocked = keyguardManager.inKeyguardRestrictedInputMode();
+
+    return isScreenAwake && !isPhoneLocked;
   }
 
 }
