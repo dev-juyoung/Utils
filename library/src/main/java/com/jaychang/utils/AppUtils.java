@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -94,21 +93,8 @@ public final class AppUtils {
     return -1;
   }
 
-  /**
-   * Remember to add this to activity manifest
-   * <code>android:configChanges="locale|orientation"</code>
-   */
-  public static Class getLauncherActivity(Context context) {
-    Intent intent = new Intent(Intent.ACTION_MAIN, null);
-    intent.addCategory(Intent.CATEGORY_LAUNCHER);
-    PackageManager pm = context.getPackageManager();
-    List<ResolveInfo> infos = pm.queryIntentActivities(intent, 0);
-    for (ResolveInfo info : infos) {
-      if (info.activityInfo.packageName.equals(context.getPackageName())) {
-        return info.activityInfo.getClass();
-      }
-    }
-    return null;
+  public static Intent getLauncherIntent(Context context) {
+    return context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
   }
 
   public static void changeLanguage(Context context, Locale locale) {
@@ -118,7 +104,7 @@ public final class AppUtils {
     Configuration config = new Configuration(resources.getConfiguration());
     config.locale = locale;
     resources.updateConfiguration(config, resources.getDisplayMetrics());
-    Intent refresh = new Intent(appContext, getLauncherActivity(context));
+    Intent refresh = getLauncherIntent(context);
     refresh.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
     context.startActivity(refresh);
   }
