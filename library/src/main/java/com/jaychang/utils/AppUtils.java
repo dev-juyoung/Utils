@@ -1,6 +1,5 @@
 package com.jaychang.utils;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ClipData;
@@ -13,7 +12,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -23,7 +21,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresPermission;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
@@ -307,91 +304,6 @@ public final class AppUtils {
   }
 
   //region Intent functions
-  public static void shareText(Context context, String chooserTitle, String text) {
-    Intent intent = new Intent(Intent.ACTION_SEND);
-    intent.setType("text/plain");
-    intent.putExtra(Intent.EXTRA_TEXT, text);
-    context.startActivity(Intent.createChooser(intent, chooserTitle));
-  }
-
-  public static void shareText(Context context, String text) {
-    shareText(context, "", text);
-  }
-
-  public static void shareFile(Context context, String chooserTitle, File file) {
-    Intent intent = new Intent(Intent.ACTION_SEND);
-    intent.setType("*/*");
-    Uri uri = Uri.fromFile(file);
-    intent.putExtra(Intent.EXTRA_STREAM, uri);
-    context.startActivity(Intent.createChooser(intent, chooserTitle));
-  }
-
-  public static void shareFile(Context context, File file) {
-    shareFile(context, "", file);
-  }
-
-  @RequiresPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-  public static void shareImage(Context context, String chooserTitle, Bitmap bitmap) {
-    Intent intent = new Intent(Intent.ACTION_SEND);
-    intent.setType("image/*");
-    intent.putExtra(Intent.EXTRA_STREAM, ImageUtils.bitmapToUri(context, bitmap));
-    context.startActivity(Intent.createChooser(intent, chooserTitle));
-  }
-
-  @RequiresPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-  public static void shareImage(Context context, Bitmap bitmap) {
-    shareImage(context, "", bitmap);
-  }
-
-  @RequiresPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-  public static void shareImages(Context context, String chooserTitle, ArrayList<Bitmap> bitmaps) {
-    Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-    intent.setType("image/*");
-    ArrayList<Uri> uris = new ArrayList<>();
-    for (Bitmap bitmap : bitmaps) {
-      uris.add(ImageUtils.bitmapToUri(context, bitmap));
-    }
-    intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-    context.startActivity(Intent.createChooser(intent, chooserTitle));
-  }
-
-  @RequiresPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-  public static void shareImages(Context context, ArrayList<Bitmap> bitmaps) {
-    shareImages(context, "", bitmaps);
-  }
-
-  @RequiresPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-  public static void shareTextAndImage(Context context, String chooserTitle, String text, Bitmap bitmap) {
-    Intent intent = new Intent(Intent.ACTION_SEND);
-    intent.setType("image/*");
-    intent.putExtra(Intent.EXTRA_TEXT, text);
-    intent.putExtra(Intent.EXTRA_STREAM, ImageUtils.bitmapToUri(context, bitmap));
-    context.startActivity(Intent.createChooser(intent, chooserTitle));
-  }
-
-  @RequiresPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-  public static void shareTextAndImage(Context context, String text, Bitmap bitmap) {
-    shareTextAndImage(context, "", text, bitmap);
-  }
-
-  @RequiresPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-  public static void shareTextAndImages(Context context, String chooserTitle, String text, ArrayList<Bitmap> bitmaps) {
-    Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-    intent.setType("image/*");
-    ArrayList<Uri> uris = new ArrayList<>();
-    for (Bitmap bitmap : bitmaps) {
-      uris.add(ImageUtils.bitmapToUri(context, bitmap));
-    }
-    intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-    intent.putExtra(Intent.EXTRA_TEXT, text);
-    context.startActivity(Intent.createChooser(intent, chooserTitle));
-  }
-
-  @RequiresPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-  public static void shareTextAndImages(Context context, String text, ArrayList<Bitmap> bitmaps) {
-    shareTextAndImages(context, "", text, bitmaps);
-  }
-
   public static void openUrl(Context context, String url) {
     Uri uri = Uri.parse(url);
     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
