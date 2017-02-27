@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 public class ViewAnimationUtils {
 
-  private static final int DEFAULT_EXPAND_ANIMATION_DURATION = 150;
+  public static final int DEFAULT_EXPAND_ANIMATION_DURATION = 150;
 
   public static ValueAnimator expandVertically(final View view, int duration, int fromHeight) {
     view.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
