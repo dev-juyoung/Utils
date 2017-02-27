@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
@@ -60,10 +61,24 @@ public final class ImageUtils {
   }
 
   public static Bitmap view2Bitmap(View view) {
-    Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-    Canvas canvas = new Canvas(bitmap);
-    view.draw(canvas);
+    view.setDrawingCacheEnabled(true);
+    view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+      View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+    view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+    view.buildDrawingCache(true);
+    Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+    view.setDrawingCacheEnabled(false);
     return bitmap;
+  }
+
+  public static float[] getRGBA(Bitmap bitmap, int x, int y) {
+    int color = bitmap.getPixel(x, y);
+    int red = Color.red(color);
+    int green = Color.green(color);
+    int blue = Color.blue(color);
+    int alpha = Color.alpha(color);
+    float[] rgba = {red, green, blue, alpha};
+    return rgba;
   }
 
   public static Bitmap contentView2Bitmap(Activity activity) {
