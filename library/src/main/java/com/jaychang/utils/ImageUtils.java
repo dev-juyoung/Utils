@@ -26,8 +26,10 @@ import android.view.View;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public final class ImageUtils {
 
@@ -48,19 +50,19 @@ public final class ImageUtils {
     return BitmapFactory.decodeResource(res, resourceId, getBitmapOptions());
   }
 
-  public static Bitmap bytes2Bitmap(byte[] bytes) {
+  public static Bitmap bytesToBitmap(byte[] bytes) {
     return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, getBitmapOptions());
   }
 
-  public static Bitmap drawable2Bitmap(Drawable drawable) {
+  public static Bitmap drawableToBitmap(Drawable drawable) {
     return ((BitmapDrawable) drawable).getBitmap();
   }
 
-  public static Bitmap stream2Bitmap(InputStream inputStream) {
+  public static Bitmap streamToBitmap(InputStream inputStream) {
     return BitmapFactory.decodeStream(inputStream, null, getBitmapOptions());
   }
 
-  public static Bitmap view2Bitmap(View view) {
+  public static Bitmap viewToBitmap(View view) {
     view.setDrawingCacheEnabled(true);
     view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
       View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
@@ -81,7 +83,7 @@ public final class ImageUtils {
     return rgba;
   }
 
-  public static Bitmap contentView2Bitmap(Activity activity) {
+  public static Bitmap contentViewToBitmap(Activity activity) {
     View view = activity.getWindow().getDecorView();
     view.setDrawingCacheEnabled(true);
     view.buildDrawingCache();
@@ -94,22 +96,36 @@ public final class ImageUtils {
     return bp;
   }
 
-  public static byte[] bitmap2Bytes(Bitmap bitmap) {
+  public static byte[] bitmapToBytes(Bitmap bitmap) {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
     return baos.toByteArray();
   }
 
-  public static Drawable bitmap2Drawable(Resources res, Bitmap bitmap) {
+  public static boolean bitmapToFile(Bitmap bitmap, File file) {
+    OutputStream outputStream = null;
+    try {
+      outputStream = new FileOutputStream(file);
+      bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+      outputStream.flush();
+      outputStream.close();
+      return true;
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+    return false;
+  }
+
+  public static Drawable bitmapToDrawable(Resources res, Bitmap bitmap) {
     return new BitmapDrawable(res, bitmap);
   }
 
-  public static byte[] drawable2Bytes(Drawable drawable) {
-    return bitmap2Bytes(drawable2Bitmap(drawable));
+  public static byte[] drawableToBytes(Drawable drawable) {
+    return bitmapToBytes(drawableToBitmap(drawable));
   }
 
-  public static Drawable bytes2Drawable(Resources res, byte[] bytes) {
-    return bitmap2Drawable(res, bytes2Bitmap(bytes));
+  public static Drawable bytesToDrawable(Resources res, byte[] bytes) {
+    return bitmapToDrawable(res, bytesToBitmap(bytes));
   }
 
   public static Uri bitmapToUri(Context context, Bitmap bitmap) {
