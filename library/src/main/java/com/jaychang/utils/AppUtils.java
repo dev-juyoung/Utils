@@ -409,7 +409,7 @@ public final class AppUtils {
             imageFile.createNewFile();
           }
           FileUtils.copyFile(file, imageFile);
-          MediaScannerConnection.scanFile(activity.getApplicationContext(), new String[]{imageFile.toString()}, null, null);
+          scanFile(activity, imageFile);
 
           if (listener != null) {
             activity.runOnUiThread(new Runnable() {
@@ -424,6 +424,10 @@ public final class AppUtils {
         }
       }
     });
+  }
+
+  public static void scanFile(Context context, File file) {
+    MediaScannerConnection.scanFile(context.getApplicationContext(), new String[]{file.toString()}, null, null);
   }
 
   public static void saveImageToAppInternalDir(final Activity activity, final File file, final OnImageSaveListener listener) {
