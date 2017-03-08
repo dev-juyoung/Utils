@@ -2,7 +2,6 @@ package com.jaychang.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -22,6 +21,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntRange;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import java.io.ByteArrayOutputStream;
@@ -46,16 +46,16 @@ public final class ImageUtils {
     return BitmapFactory.decodeFile(file.getPath(), getBitmapOptions());
   }
 
-  public static Bitmap resourceToBitmap(Resources res, @DrawableRes int resourceId) {
-    return BitmapFactory.decodeResource(res, resourceId, getBitmapOptions());
-  }
-
   public static Bitmap bytesToBitmap(byte[] bytes) {
     return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, getBitmapOptions());
   }
 
   public static Bitmap drawableToBitmap(Drawable drawable) {
     return ((BitmapDrawable) drawable).getBitmap();
+  }
+
+  public static Bitmap drawableToBitmap(Context context, @DrawableRes int drawableRes) {
+    return BitmapFactory.decodeResource(context.getResources(), drawableRes, getBitmapOptions());
   }
 
   public static Bitmap streamToBitmap(InputStream inputStream) {
@@ -116,16 +116,21 @@ public final class ImageUtils {
     return false;
   }
 
-  public static Drawable bitmapToDrawable(Resources res, Bitmap bitmap) {
-    return new BitmapDrawable(res, bitmap);
+  public static Drawable bitmapToDrawable(Context context, Bitmap bitmap) {
+    return new BitmapDrawable(context.getResources(), bitmap);
   }
 
   public static byte[] drawableToBytes(Drawable drawable) {
     return bitmapToBytes(drawableToBitmap(drawable));
   }
 
-  public static Drawable bytesToDrawable(Resources res, byte[] bytes) {
-    return bitmapToDrawable(res, bytesToBitmap(bytes));
+  public static byte[] drawableToBytes(Context context, @DrawableRes int drawableRes) {
+    Drawable drawable = ContextCompat.getDrawable(context, drawableRes);
+    return bitmapToBytes(drawableToBitmap(drawable));
+  }
+
+  public static Drawable bytesToDrawable(Context context, byte[] bytes) {
+    return bitmapToDrawable(context, bytesToBitmap(bytes));
   }
 
   public static Uri bitmapToUri(Context context, Bitmap bitmap) {
