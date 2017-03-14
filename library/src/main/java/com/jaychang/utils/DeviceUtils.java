@@ -219,7 +219,7 @@ public class DeviceUtils {
     }
   }
 
-  public static UUID getBlueboothDeviceID(byte[] recordData) {
+  public static UUID getBluetoothDeviceID(byte[] recordData) {
     return UUID.nameUUIDFromBytes(recordData);
   }
 
