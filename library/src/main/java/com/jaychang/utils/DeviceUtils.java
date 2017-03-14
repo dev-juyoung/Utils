@@ -213,10 +213,16 @@ public class DeviceUtils {
 
   @RequiresPermission(allOf = {Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN })
   public static void enableBluetoothIfNeed() {
-    BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    if (!mBluetoothAdapter.isEnabled()){
-      mBluetoothAdapter.enable();
+    BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+    if (!adapter.isEnabled()){
+      adapter.enable();
     }
+  }
+
+  @RequiresPermission(Manifest.permission.BLUETOOTH)
+  public static boolean isBluetoothEnabled() {
+    BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+    return adapter.isEnabled();
   }
 
   public static UUID getBluetoothDeviceID(byte[] recordData) {
