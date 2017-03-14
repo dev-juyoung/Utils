@@ -24,6 +24,7 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 import java.io.File;
+import java.util.UUID;
 
 public class DeviceUtils {
 
@@ -216,6 +217,10 @@ public class DeviceUtils {
     if (!mBluetoothAdapter.isEnabled()){
       mBluetoothAdapter.enable();
     }
+  }
+
+  public static UUID getBlueboothDeviceID(byte[] recordData) {
+    return UUID.nameUUIDFromBytes(recordData);
   }
 
   @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
