@@ -212,7 +212,7 @@ public class DeviceUtils {
   }
 
   @RequiresPermission(allOf = {Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN })
-  public static void enableBluetoothIfNeed() {
+  public static void enableBluetooth() {
     BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
     if (!adapter.isEnabled()){
       adapter.enable();
