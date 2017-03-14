@@ -3,6 +3,7 @@ package com.jaychang.utils;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -206,6 +207,14 @@ public class DeviceUtils {
             dialog.dismiss();
           }
         }).show();
+    }
+  }
+
+  @RequiresPermission(allOf = {Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN })
+  public static void enableBluetoothIfNeed() {
+    BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    if (!mBluetoothAdapter.isEnabled()){
+      mBluetoothAdapter.enable();
     }
   }
 
