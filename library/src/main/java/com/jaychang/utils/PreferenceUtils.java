@@ -33,6 +33,11 @@ public final class PreferenceUtils {
       .getBoolean(key, false);
   }
 
+  public static boolean getBoolean(Context context, String key, boolean defaultVal) {
+    return PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext())
+      .getBoolean(key, defaultVal);
+  }
+
   public static void saveInt(Context context, String key, int value) {
     PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext())
       .edit()
