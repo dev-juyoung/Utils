@@ -2,6 +2,7 @@ package com.jaychang.utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -466,6 +467,16 @@ public final class AppUtils {
     ClipboardManager clipboard = (ClipboardManager) context.getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
     ClipData clip = ClipData.newPlainText("text", text);
     clipboard.setPrimaryClip(clip);
+  }
+
+  public static void goToPlayStore(Context context, String packageName) {
+    Uri uri = Uri.parse("market://details?id=" + packageName);
+    Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+    try {
+      context.startActivity(goToMarket);
+    } catch (ActivityNotFoundException e) {
+      context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + packageName)));
+    }
   }
 
 }
