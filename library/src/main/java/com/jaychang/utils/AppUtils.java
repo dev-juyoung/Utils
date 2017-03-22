@@ -97,7 +97,6 @@ public final class AppUtils {
   }
 
   public static void changeLanguage(Context context, Locale locale) {
-    Locale.setDefault(locale);
     Context appContext = context.getApplicationContext();
     Resources resources = appContext.getResources();
     Configuration config = new Configuration(resources.getConfiguration());
