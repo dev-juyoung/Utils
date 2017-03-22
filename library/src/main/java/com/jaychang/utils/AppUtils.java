@@ -96,16 +96,18 @@ public final class AppUtils {
     return context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
   }
 
-  public static void changeLanguage(Context context, Locale locale) {
+  public static void changeLanguage(Context context, Locale locale, boolean restart) {
     Locale.setDefault(locale);
     Context appContext = context.getApplicationContext();
     Resources resources = appContext.getResources();
     Configuration config = new Configuration(resources.getConfiguration());
     config.locale = locale;
     resources.updateConfiguration(config, resources.getDisplayMetrics());
-    Intent refresh = getLauncherIntent(context);
-    refresh.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-    context.startActivity(refresh);
+    if (restart) {
+      Intent refresh = getLauncherIntent(context);
+      refresh.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      context.startActivity(refresh);
+    }
   }
 
   //region Screen functions
