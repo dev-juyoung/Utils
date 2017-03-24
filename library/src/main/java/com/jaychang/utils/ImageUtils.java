@@ -163,16 +163,8 @@ public final class ImageUtils {
     return Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
   }
 
-  public static Bitmap scale(Bitmap src, float scaleWidth, float scaleHeight) {
-    Matrix matrix = new Matrix();
-    matrix.setScale(scaleWidth, scaleHeight);
-    Bitmap newBitmap = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
-
-    if (!src.isRecycled()) {
-      src.recycle();
-    }
-
-    return newBitmap;
+  public static Bitmap scale(Bitmap src, int scaleWidth, int scaleHeight) {
+    return Bitmap.createScaledBitmap(src, scaleWidth, scaleHeight, false);
   }
 
   public static Bitmap clip(Bitmap src, int x, int y, int width, int height) {
