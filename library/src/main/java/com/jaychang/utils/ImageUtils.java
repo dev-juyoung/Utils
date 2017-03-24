@@ -164,7 +164,11 @@ public final class ImageUtils {
   }
 
   public static Bitmap scale(Bitmap src, int scaleWidth, int scaleHeight) {
-    return Bitmap.createScaledBitmap(src, scaleWidth, scaleHeight, false);
+    Bitmap newBitmap = Bitmap.createScaledBitmap(src, scaleWidth, scaleHeight, false);
+    if (!src.isRecycled()) {
+      src.recycle();
+    }
+    return newBitmap;
   }
 
   public static Bitmap clip(Bitmap src, int x, int y, int width, int height) {
