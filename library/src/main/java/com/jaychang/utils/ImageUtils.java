@@ -106,7 +106,7 @@ public final class ImageUtils {
     OutputStream outputStream = null;
     try {
       outputStream = new FileOutputStream(file);
-      bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+      bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
       outputStream.flush();
       outputStream.close();
       return true;
@@ -163,15 +163,11 @@ public final class ImageUtils {
     return Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
   }
 
-  public static Bitmap scale(Bitmap src, float scaleWidth, float scaleHeight) {
-    Matrix matrix = new Matrix();
-    matrix.setScale(scaleWidth, scaleHeight);
-    Bitmap newBitmap = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
-
+  public static Bitmap scale(Bitmap src, int scaleWidth, int scaleHeight) {
+    Bitmap newBitmap = Bitmap.createScaledBitmap(src, scaleWidth, scaleHeight, false);
     if (!src.isRecycled()) {
       src.recycle();
     }
-
     return newBitmap;
   }
 
