@@ -4,6 +4,7 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -60,6 +61,28 @@ public class FileUtils {
       } catch (IOException e) {
         e.printStackTrace();
       }
+    }
+  }
+
+  public static void writeTextToFile(String text, File file) {
+    try {
+      FileWriter writer = new FileWriter(file, false);
+      writer.write(text);
+      writer.flush();
+      writer.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static void appendTextToFile(String text, File file) {
+    try {
+      FileWriter writer = new FileWriter(file, true);
+      writer.write(text);
+      writer.flush();
+      writer.close();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
