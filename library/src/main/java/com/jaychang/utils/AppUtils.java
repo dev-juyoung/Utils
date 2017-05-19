@@ -320,6 +320,10 @@ public final class AppUtils {
     context.startActivity(intent);
   }
 
+  public static void openFbMessenger(Context context, String fbUserId) {
+    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("fb://messaging/" + fbUserId)));
+  }
+
   public static void openLocalImage(Context context, String imagePath) {
     Intent intent = new Intent(Intent.ACTION_VIEW);
     intent.addCategory(Intent.CATEGORY_DEFAULT);
