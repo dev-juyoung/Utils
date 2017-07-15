@@ -212,10 +212,12 @@ public class DeviceUtils {
   }
 
   @RequiresPermission(allOf = {Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN })
-  public static void enableBluetooth() {
+  public static void setBluetoothEnabled(boolean enabled) {
     BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-    if (!adapter.isEnabled()){
+    if (enabled) {
       adapter.enable();
+    } else {
+      adapter.disable();
     }
   }
 

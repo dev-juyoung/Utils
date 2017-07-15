@@ -4,7 +4,10 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 
 public class FileUtils {
@@ -34,6 +37,52 @@ public class FileUtils {
     } catch (IOException e) {
       e.printStackTrace();
       return false;
+    }
+  }
+
+  public static void writeStreamToFile(InputStream input, File outputFile) {
+    OutputStream out = null;
+
+    try {
+      out = new FileOutputStream(outputFile);
+      byte[] buf = new byte[1024];
+      int len;
+      while ((len = input.read(buf)) > 0) {
+        out.write(buf, 0, len);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        if (out != null) {
+          out.close();
+        }
+        input.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  public static void writeTextToFile(String text, File file) {
+    try {
+      FileWriter writer = new FileWriter(file, false);
+      writer.write(text);
+      writer.flush();
+      writer.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static void appendTextToFile(String text, File file) {
+    try {
+      FileWriter writer = new FileWriter(file, true);
+      writer.write(text);
+      writer.flush();
+      writer.close();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 

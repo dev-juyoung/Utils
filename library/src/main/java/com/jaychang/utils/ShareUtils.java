@@ -33,27 +33,27 @@ public class ShareUtils {
     shareText(context, text, null);
   }
 
-  public static void shareFile(Context context, File file, String packageName) {
+  public static void shareVideo(Context context, File file, String packageName) {
     Intent intent = new Intent(Intent.ACTION_SEND);
     if (packageName != null) {
       intent.setPackage(packageName);
     }
-    intent.setType("*/*");
+    intent.setType("video/*");
     Uri uri = Uri.fromFile(file);
     intent.putExtra(Intent.EXTRA_STREAM, uri);
     context.startActivity(Intent.createChooser(intent, ""));
   }
 
-  public static void shareFile(Context context, File file) {
-    shareFile(context, file, null);
+  public static void shareVideo(Context context, File file) {
+    shareVideo(context, file, null);
   }
 
-  public static void shareFiles(Context context, ArrayList<File> files, String packageName) {
+  public static void shareVideos(Context context, ArrayList<File> files, String packageName) {
     Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
     if (packageName != null) {
       intent.setPackage(packageName);
     }
-    intent.setType("*/*");
+    intent.setType("video/*");
     ArrayList<Uri> uris = new ArrayList<>();
     for (File file : files) {
       uris.add(Uri.fromFile(file));
@@ -62,8 +62,8 @@ public class ShareUtils {
     context.startActivity(Intent.createChooser(intent, ""));
   }
 
-  public static void shareFiles(Context context, ArrayList<File> files) {
-    shareFiles(context, files, null);
+  public static void shareVideo(Context context, ArrayList<File> files) {
+    shareVideos(context, files, null);
   }
 
   public static void shareImage(Context context, File file, String packageName) {
