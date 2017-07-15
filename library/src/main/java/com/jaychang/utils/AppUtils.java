@@ -481,4 +481,17 @@ public final class AppUtils {
     }
   }
 
+  @Nullable
+  public static String getMetaDataValue(Context context, String name) {
+    ApplicationInfo ai;
+    try {
+      ai = context.getPackageManager().getApplicationInfo(
+        context.getPackageName(), PackageManager.GET_META_DATA);
+    } catch (PackageManager.NameNotFoundException e) {
+      return null;
+    }
+
+    return (String) ai.metaData.get(name);
+  }
+
 }
