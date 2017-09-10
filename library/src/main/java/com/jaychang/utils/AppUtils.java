@@ -96,6 +96,7 @@ public final class AppUtils {
     return context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
   }
 
+  @Deprecated
   public static void changeLanguage(Context context, Locale locale, boolean restart) {
     Locale.setDefault(locale);
     Context appContext = context.getApplicationContext();
