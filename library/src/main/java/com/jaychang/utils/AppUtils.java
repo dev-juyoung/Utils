@@ -496,7 +496,7 @@ public final class AppUtils {
       return null;
     }
 
-    return (String) ai.metaData.get(name);
+    return ((String) ai.metaData.get(name)).trim();
   }
 
 }
